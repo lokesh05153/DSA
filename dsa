@@ -1,0 +1,54 @@
+import java.util.LinkedList;
+
+class LongestPalindromeRearrange {
+
+    public static int longestPalindromeSubstring(String s) {
+
+        
+        LinkedList<Integer> freq = new LinkedList<>();
+
+               for (int i = 0; i < 26; i++) {
+            freq.add(0);
+        }
+
+        int left = 0;
+        int maxLength = 0;
+
+                for (int right = 0; right < s.length(); right++) {
+
+                        int index = s.charAt(right) - 'a';
+
+                       freq.set(index, freq.get(index) + 1);
+
+                        while (countOdd(freq) > 1) {
+
+                int leftIndex = s.charAt(left) - 'a';
+                freq.set(leftIndex, freq.get(leftIndex) - 1);
+                left++;
+            }
+
+                       maxLength = Math.max(maxLength, right - left + 1);
+        }
+
+        return maxLength;
+    }
+
+      private static int countOdd(LinkedList<Integer> freq) {
+
+        int oddCount = 0;
+
+        for (int i = 0; i < 26; i++) {
+            if (freq.get(i) % 2 != 0) {
+                oddCount++;
+            }
+        }
+
+        return oddCount;
+    }
+
+    public static void main(String[] args) {
+
+        String input = "aabcb";
+        System.out.println(longestPalindromeSubstring(input));
+    }
+}
